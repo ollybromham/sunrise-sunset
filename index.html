@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A sun, risen and set by users" />
+    <meta property="og:url" content="https://sun.ollybromham.com" />
+    <meta property="og:title" content="Sunrise/Sunset" />
+    <meta property="og:description" content="A sun, risen and set by users" />
+    <meta property="og:image" content="./meta.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@ollybromham" />
+    <meta name="twitter:creator" content="@ollybromham" />
+    <meta name="twitter:title" content="Sunrise/Sunset" />
+    <meta name="twitter:description" content="A sun, risen and set by users" />
+    <meta name="twitter:image" content="./meta.jpg" />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx='50' cy='50' r='50' fill='rgb(255,200,0)'/></svg>"/>
+    <title>Sunrise/Sunset</title>
+    <style media="screen">
+      * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+      }
+
+      main {
+        height: 100vh;
+        height: 100dvh;
+        width: 100%;
+
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+
+        overflow: hidden;
+      }
+
+      div.sky {
+        position: fixed;
+        height: 1080px;
+        width: 1920px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        background: radial-gradient(closest-side at 960px 690px, rgb(84.5, 5.3, 54) 20%, rgb(4.8, 4.8, 24.2) 100%);
+      }
+
+  		div.sun {
+        position: absolute;
+        bottom: -125px;
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+
+        background: rgb(255,166.8,0);
+        box-shadow: 0 0 20px 20px rgb(255,166.8,0);
+      }
+
+      div.realtimeuserscounter {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div class="sky">
+        <div class="sun"></div>
+      </div>
+      <div class="realtimeuserscounter"></div>
+      <script src="https://realtimeusers.bycontrast.co/realtimeusers.js"></script>
+    </main>
+    <script>
+
+      const app = document.querySelector('main')
+      const sky = document.querySelector('div.sky')
+      const sun = document.querySelector('div.sun')
+      const counter = document.querySelector('div.realtimeuserscounter__num')
+
+      function run(value) {
+        app.style.background = `rgb(${Math.round(0 + (4.8 * value))}, ${Math.round(0 + (4.8 * value))}, ${Math.round(20 + (4.2 * value))})`
+        sky.style.background = `radial-gradient(closest-side at 960px ${Math.round(700 - (10 * value))}px, rgb(${Math.round(80 + (4.5 * value))},${Math.round(0 + (5.3 * value))}, ${Math.round(50 + (4 * value))}) 20%, rgb(${Math.round(0 + (4.8 * value))}, ${Math.round(0 + (4.8 * value))}, ${Math.round(20 + (4.2 * value))}) 100%)`
+  			sun.style.bottom = `${(-125 + (15 * value))}px`
+  			sun.style.background = `rgb(255,${Math.round(165 + (1.8 * value))},0)`
+  			sun.style.boxShadow = `0 0 20px 20px rgb(255,${Math.round(165 + (1.8 * value))},0)`
+      }
+
+      function check() {
+        const val = parseInt(counter.innerText)
+
+        if (val && val < 50) {
+          console.log(`Current users: ${val}`)
+          run(val + 1)
+        } else {
+          // Loading user count OR above maximum users (50)
+        }
+      }
+
+      window.onload = () => {
+        console.log("Powered by Real Time Users")
+        console.log("https://realtimeusers.bycontrast.co/")
+        check()
+        setInterval(check, 1000)
+      }
+  	</script>
+  </body>
+</html>
